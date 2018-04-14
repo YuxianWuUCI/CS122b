@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // this annotation maps this Java Servlet Class to a URL
-@WebServlet("/stars")
+@WebServlet("/movies")
 public class StarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,7 +45,7 @@ public class StarServlet extends HttpServlet {
         		// declare statement
         		Statement statement = connection.createStatement();
         		// prepare query
-        		String query = "SELECT * from movies limit 20";
+        		String query = "SELECT * from movies limit 30";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
@@ -56,7 +56,7 @@ public class StarServlet extends HttpServlet {
         		
         		// add table header row
         		out.println("<tr>");
-        		out.println("<td>titlr</td>");
+        		out.println("<td>title</td>");
         		out.println("<td>year</td>");
         		out.println("<td>director</td>");
         		out.println("</tr>");
@@ -64,9 +64,9 @@ public class StarServlet extends HttpServlet {
         		// add a row for every star result
         		while (resultSet.next()) {
         			// get a star from result set
-        			String starID = resultSet.getString("id");
-        			String starName = resultSet.getString("name");
-        			String birthYear = resultSet.getString("birthyear");
+        			String starID = resultSet.getString("title");
+        			String starName = resultSet.getString("year");
+        			String birthYear = resultSet.getString("director");
         			
         			out.println("<tr>");
         			out.println("<td>" + starID + "</td>");
