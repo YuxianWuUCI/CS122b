@@ -35,6 +35,7 @@ public class StarServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         out.println("<html>");
+        out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyle.css\" />");
         out.println("<head><title>Fabflix</title></head>");
         
         
@@ -45,7 +46,7 @@ public class StarServlet extends HttpServlet {
         		// declare statement
         		Statement statement = connection.createStatement();
         		// prepare query
-        		String query = "SELECT * from movies limit 30";
+        		String query = "select movies.title, movies.year, movies.director, genres.name, stars.name, ratings.rating from ((((movies join stars_in_movies on movies.id = stars_in_movies.movieId) join stars on stars_in_movies.starId = stars.id) join genres_in_movies on movies.id = genres_in_movies.movieId) join genres on genres.id = genres_in_movies.genreId) join ratings on movies.id = ratings.movieId order by ratings.rating desc;";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
@@ -56,23 +57,68 @@ public class StarServlet extends HttpServlet {
         		
         		// add table header row
         		out.println("<tr>");
-        		out.println("<td>title</td>");
-        		out.println("<td>year</td>");
-        		out.println("<td>director</td>");
+        		out.println("<th>count</th>");
+        		out.println("<th>title</th>");
+        		out.println("<th>year</th>");
+        		out.println("<th>director</th>");
+        		out.println("<th>genres</th>");
+        		out.println("<th>stars</th>");
+        		out.println("<th>rating</th>");
         		out.println("</tr>");
-        		
+        		int count = 0;
+        		String temp_movieTitle = "";
+        		String temp_year = "";
+        		String temp_rating = "";
+        		String temp_director = "";
+        		String genre="";
+        		String star="";
+        		//System.out.println(""+temp_movieTitle);
         		// add a row for every star result
-        		while (resultSet.next()) {
+        		while (resultSet.next() && count<=20) {
         			// get a star from result set
-        			String starID = resultSet.getString("title");
-        			String starName = resultSet.getString("year");
-        			String birthYear = resultSet.getString("director");
+        			String title = resultSet.getString("movies.title");
+        			String year = resultSet.getString("movies.year");
+        	        String rating = resultSet.getString("ratings.rating");
+        	        String director = resultSet.getString("movies.director");
+        	        String genresname = resultSet.getString("genres.name");
+        	        String starname = resultSet.getString("stars.name");
+        	        if(temp_movieTitle.contains(title)){
+        	        	if(!genre.contains(genresname)) {
+        	        		genre = genre.concat(", "+genresname);
+        	        	}
+        	        	if(!star.contains(starname)) {
+        	        		star = star.concat(", "+starname);
+        	        	}
+        	        }
+        	        else {
+        	        	if(count==0) {
+            	        	genre = genresname;
+            	        	star = starname;
+            	        	temp_movieTitle = title;
+            	        	temp_year = year;
+            	        	temp_rating = rating;
+            	        	temp_director = director;
+            	        	count ++;
+            	        	continue;
+        	        	}
+        	        	out.println("<tr>");
+        	        	out.println("<td>" + count + "</td>");
+            			out.println("<td>" + temp_movieTitle + "</td>");
+            			out.println("<td>" + temp_year + "</td>");
+            			out.println("<td>" + temp_director + "</td>");
+            			out.println("<td>" + genre + "</td>");
+            			out.println("<td>" + star + "</td>");
+            			out.println("<td>" + temp_rating + "</td>");
+            			out.println("</tr>");
+            			temp_movieTitle = title;
+        	        	temp_year = year;
+        	        	temp_rating = rating;
+        	        	temp_director = director;
+        	        	genre = genresname;
+        	        	star = starname;
+        	        	count++;
+        	        }
         			
-        			out.println("<tr>");
-        			out.println("<td>" + starID + "</td>");
-        			out.println("<td>" + starName + "</td>");
-        			out.println("<td>" + birthYear + "</td>");
-        			out.println("</tr>");
         		}
         		
         		out.println("</table>");
