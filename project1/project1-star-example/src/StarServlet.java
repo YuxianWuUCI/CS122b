@@ -46,7 +46,7 @@ public class StarServlet extends HttpServlet {
         		// declare statement
         		Statement statement = connection.createStatement();
         		// prepare query
-        		String query = "select movies.title, movies.year, movies.director, genres.name, stars.name, ratings.rating from ((((movies join stars_in_movies on movies.id = stars_in_movies.movieId) join stars on stars_in_movies.starId = stars.id) join genres_in_movies on movies.id = genres_in_movies.movieId) join genres on genres.id = genres_in_movies.genreId) join ratings on movies.id = ratings.movieId order by ratings.rating desc;";
+        		String query = "select movies.title, movies.year, movies.director, genres.name, stars.name, ratings.rating from ((((movies join stars_in_movies on movies.id = stars_in_movies.movieId) join stars on stars_in_movies.starId = stars.id) join genres_in_movies on movies.id = genres_in_movies.movieId) join genres on genres.id = genres_in_movies.genreId) join ratings on movies.id = ratings.movieId order by ratings.rating desc, movies.title;";
         		// execute query
         		ResultSet resultSet = statement.executeQuery(query);
 
