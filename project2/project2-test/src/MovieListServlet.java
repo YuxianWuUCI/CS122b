@@ -16,6 +16,9 @@ import javax.sql.DataSource;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Servlet implementation class MovieListServlet
  */
@@ -75,7 +78,7 @@ public class MovieListServlet extends HttpServlet {
 
 			// Construct a query with parameter represented by "?"
 			String query = "select m.id, m.title, m.year, m.director"
-            		+ ", g.name, s.name, r.rating "
+            		+ ", g.name, s.id, s.name, r.rating "
             		+ "from movies as m, genres_in_movies as gim,"
             		+ "genres as g, stars as s, stars_in_movies as sim,"
             		+ "ratings as r where m.id = gim.movieId and "
@@ -101,23 +104,16 @@ public class MovieListServlet extends HttpServlet {
 				query = query.concat(" and m.year = "+year);
 			}
 			
-			if(sortontitle!=null) {
+			if(!sortontitle.equalsIgnoreCase("null")) {
 				query = query.concat(" order by m.title "+sortontitle);
-			}else if(sortonrating!=null){
+			}else if(!sortonrating.equalsIgnoreCase("null")){
 				//if user chooses sorting on rating
-				query = query.concat(" order by r.rating "+sortonrating);
+				query = query.concat(" order by r.rating "+sortonrating+", m.title");
 			}else {
 				//default is sort on title ascend
 				query = query.concat(" order by m.title");
 			}
-			
-			if(offset==null) {
-				offset="0";
-			}
-			if(range==null) {
-				range = "20";
-			}
-			query = query.concat(" limit 300 offset "+offset+";");
+			query = query.concat(";");
 			System.out.println("query: "+query);
 			// Declare our statement
 			Statement statement = dbcon.createStatement();
@@ -130,19 +126,19 @@ public class MovieListServlet extends HttpServlet {
     		String temp_year = "";
     		String temp_rating = "";
     		String temp_director = "";
+    		String temp_starId = "";
     		String Genre="";
     		String Star="";
     		try {
-    			int rangeint = Integer.parseInt(range);
     			// Iterate through each row of rs
-    			System.out.println("rangeint: "+rangeint);
-    			while (rs.next() && count<=rangeint) {
+    			while (rs.next()) {
 
     				String Id = rs.getString("m.id");
     				String Title = rs.getString("m.title");
     				String Year = rs.getString("m.year");
     				String Director = rs.getString("m.director");
     				String Genresname = rs.getString("g.name");
+    				String StarId = rs.getString("s.id");
     				String Starsname = rs.getString("s.name");
     				String Rating = rs.getString("r.rating");
     				//if the movie in this row is the same movie 
@@ -155,12 +151,14 @@ public class MovieListServlet extends HttpServlet {
     					//if this row has a different genre, add it to the genre
         	        	if(!Star.contains(Starsname)) {
         	        		Star = Star.concat(", "+Starsname);
+        	        		temp_starId = temp_starId.concat(", "+StarId);
         	        	}
     				}else {
     					//if this row has a different movie, web should print the total information of the previous page
         	        	if(count==1) {
             	        	Genre = Genresname;
             	        	Star = Starsname;
+            	        	temp_starId = StarId;
             	        	temp_Id = Id;
             	        	temp_movieTitle = Title;
             	        	temp_year = Year;
@@ -170,7 +168,7 @@ public class MovieListServlet extends HttpServlet {
             	        	continue;
         	        	}
         	        	// Create a JsonObject based on the data we retrieve from rs
-
+        	        	//System.out.println("temp_starId: " + temp_starId);
         				JsonObject jsonObject = new JsonObject();
         				jsonObject.addProperty("movie_id", temp_Id);
         				jsonObject.addProperty("movie_title", temp_movieTitle);
@@ -178,10 +176,11 @@ public class MovieListServlet extends HttpServlet {
         				jsonObject.addProperty("movie_director", temp_director);
         				jsonObject.addProperty("movie_genre", Genre);
         				jsonObject.addProperty("movie_star", Star);
-        				jsonObject.addProperty("movie_director", temp_director);
         				jsonObject.addProperty("movie_rating", temp_rating);
+        				jsonObject.addProperty("star_id", temp_starId);
         				Genre = Genresname;
         	        	Star = Starsname;
+        	        	temp_starId = StarId;
         	        	temp_Id = Id;
         	        	temp_movieTitle = Title;
         	        	temp_year = Year;
@@ -200,9 +199,10 @@ public class MovieListServlet extends HttpServlet {
 				jsonObject.addProperty("movie_genre", Genre);
 				jsonObject.addProperty("movie_star", Star);
 				jsonObject.addProperty("movie_rating", temp_rating);
+				jsonObject.addProperty("star_id", temp_starId);
 				jsonArray.add(jsonObject);
     			System.out.println("count: "+count);
-    			System.out.println("jsonArray: "+jsonArray.toString());
+    			//System.out.println("jsonArray: "+jsonArray.toString());
                 // write JSON string to output
                 out.write(jsonArray.toString());
                 // set response status to 200 (OK)

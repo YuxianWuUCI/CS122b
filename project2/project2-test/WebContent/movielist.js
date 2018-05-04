@@ -53,7 +53,7 @@ function getParameterByName(target) {
 }
 
 function handleMovieResult(resultData) {
-
+	//location.reload(false);
     console.log("handleResult: populating movie info from resultData");
 
     // populate the star info h3
@@ -64,19 +64,29 @@ function handleMovieResult(resultData) {
     starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
         "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
     */
-
+    result = resultData;
     console.log("handleResult: populating movie table from resultData");
 
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
-    console.log("resultData.length"+resultData.length);
+    movieTableBodyElement.empty();
+    console.log("type of movietable"+typeof(movieTableBodyElement));
+    console.log("resultData.length: "+resultData.length);
+    console.log("rangeint: "+rangeint);
+    console.log("offset: "+offset);
     // Concatenate the html tags with resultData jsonObject to create table rows
-    for (let i = 0; i < resultData.length; i++) {
+    if(offset>resultData.length || offset<0 ){
+    	console.log("Error:pagenumber you choose is out of the range of pages we have");
+    	alert("Error:pagenumber you choose is out of the range of pages we have");
+    	return;
+    }
+    for (let i = offset; i < Math.min(offset+rangeint, resultData.length); i++) {
         let rowHTML = "";
+        var star_id = resultData[i]['star_id'].split(",");
+        var star_name = resultData[i]["movie_star"].split(",");
         rowHTML += "<tr>";
         rowHTML += "<th>" + resultData[i]["movie_id"] + "</th>";
-        //rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
         rowHTML +=
             "<th>" +
             // Add a link to single-star.html with id passed with GET url parameter
@@ -87,14 +97,18 @@ function handleMovieResult(resultData) {
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_genre"] + "</th>";
-        //rowHTML += "<th>" + resultData[i]["movie_star"] + "</th>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData[i]['star_id'] + '">'
-            + resultData[i]["movie_star"] +     // display star_name for the link text
-            '</a>' +
-            "</th>";
+        console.log()
+        rowHTML += "<th>";
+        
+        for(let j = 0; j < star_id.length; j++){
+        	rowHTML +=
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="single-star.html?id=' + star_id[j].split(" ").join("") + '">'
+                + star_name[j]+", "+     // display star_name for the link text
+                '</a> ';
+        }
+        rowHTML = rowHTML.slice(0,rowHTML.lastIndexOf(",")).concat(rowHTML.slice(rowHTML.lastIndexOf(",")+1,rowHTML.length));
+        rowHTML += "</th>";
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
         rowHTML += "</tr>";
 
@@ -102,17 +116,92 @@ function handleMovieResult(resultData) {
         movieTableBodyElement.append(rowHTML);
     }
 }
-
+function handlesort(a,b){
+	console.log("a,b: "+a+", "+b);
+	if(a.indexOf("rating") != -1){
+		if(b.indexOf("ascend") != -1){
+			sortonrating = "asc";
+			sortontitle = null;
+		}
+		else{
+			sortonrating = "desc";
+			sortontitle = null;
+		}
+	}
+	else if(a.indexOf("title") != -1){
+		if(b.indexOf("ascend") != -1){
+			sortontitle = "asc";
+			sortonrating = null;
+		}
+		else{
+			sortontitle = "desc";
+			sortonrating = null;
+		}
+	}
+	console.log("sortontitle: "+sortontitle);
+	console.log("sortonrating: "+sortonrating);
+	//location.reload(true);
+	jQuery.ajax({
+	    dataType: "json", // Setting return data type
+	    method: "GET", // Setting request method
+	    url: "api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+
+	    	starname+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
+	    success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+	});
+}
+function handlerange(a){
+	if(a.indexOf("10") != -1){
+		rangeint = 10;
+	}
+	else if(a.indexOf("20") != -1){
+		rangeint =20;
+	}
+	else if(a.indexOf("30") != -1){
+		rangeint =30;
+	}
+	console.log("rangeint in handlerange function: "+rangeint);
+	handleMovieResult(result);
+}
+function handlepage(a){
+	if(a==true){
+		page = page-1;
+		offset = (page-1)*rangeint;
+	}
+	else{
+		page = page+1;
+		offset = (page-1)*rangeint;
+	}
+	handleMovieResult(result);
+} 
 //get the parameter from url
 let movieTitle = getParameterByName('title');
 let movieYear = getParameterByName('year');
 let director = getParameterByName('director');
 let starname = getParameterByName('starname');
-
+let sortontitle = getParameterByName('sortontitle');
+let sortonrating = getParameterByName('sortonrating');
+let pagenumber  = getParameterByName('pagenumber');
+let range = getParameterByName('range');
+var result;
+if(!range){
+	var rangeint = 20;
+}
+else{
+	var rangeint = parseInt(range);
+}
+if(!pagenumber){
+	var offset = 0;
+	var page = 1;
+}
+else{
+	var page = parseInt(pagenumber);
+	var offset = (page-1)*rangeint;
+}
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: "api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+starname, // Setting request url, which is mapped by StarsServlet in Stars.java
+    url: "api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+
+    	starname+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });
