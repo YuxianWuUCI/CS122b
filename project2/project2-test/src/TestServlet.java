@@ -47,18 +47,18 @@ public class TestServlet extends HttpServlet {
         String star = request.getParameter("star");
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-        if(title.length() != 0) {
+        if(title != null && title.length() != 0) {
         	 title=title.concat("%");
         	 jsonObject.addProperty("movie_title", title);
         }
-        if(year.length() != 0) {
+        if(year != null && year.length() != 0) {
         	jsonObject.addProperty("movie_year", year);
         }
-        if(director.length() != 0) {
+        if(director != null && director.length() != 0) {
         	director=director.concat("%");
         	jsonObject.addProperty("movie_director", director);
         }
-        if(star.length() != 0) {
+        if(star != null && star.length() != 0) {
         	star=star.concat("%");
         	jsonObject.addProperty("movie_star", star);
         }

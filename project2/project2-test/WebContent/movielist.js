@@ -76,10 +76,17 @@ function handleMovieResult(resultData) {
     console.log("rangeint: "+rangeint);
     console.log("offset: "+offset);
     // Concatenate the html tags with resultData jsonObject to create table rows
-    if(offset>resultData.length || offset<0 ){
+    if(offset<0 ){
     	console.log("Error:pagenumber you choose is out of the range of pages we have");
-    	alert("Error:pagenumber you choose is out of the range of pages we have");
-    	return;
+    	alert("Error:pagenumber you choose is invalid(smaller than 0)\n We will go back to the first page");
+    	offset = 0;
+    	page = 1;
+    }
+    else if(offset>resultData.length){
+    	alert("Error:pagenumber you choose is invalid(bigger than we have)\n We will go back to the last page");
+    	page = resultData.length;
+    	console.log("page jump: "+ page);
+    	offset = (page-1)*rangeint;
     }
     for (let i = offset; i < Math.min(offset+rangeint, resultData.length); i++) {
         let rowHTML = "";
