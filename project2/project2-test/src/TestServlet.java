@@ -42,11 +42,26 @@ public class TestServlet extends HttpServlet {
 		response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         String title = request.getParameter("title");
-        //add the wildcard
-        title=title.concat("%");
+        String year = request.getParameter("year");
+        String director = request.getParameter("director");
+        String star = request.getParameter("star");
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("movie_title", title);
+        if(title.length() != 0) {
+        	 title=title.concat("%");
+        	 jsonObject.addProperty("movie_title", title);
+        }
+        if(year.length() != 0) {
+        	jsonObject.addProperty("movie_year", year);
+        }
+        if(director.length() != 0) {
+        	director=director.concat("%");
+        	jsonObject.addProperty("movie_director", director);
+        }
+        if(star.length() != 0) {
+        	star=star.concat("%");
+        	jsonObject.addProperty("movie_star", star);
+        }
         jsonArray.add(jsonObject);
      // write JSON string to output
         out.write(jsonArray.toString());
