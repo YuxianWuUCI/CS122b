@@ -75,9 +75,27 @@ function handleMovieResult(resultData) {
     for (let i = 0; i < resultData.length; i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
-        rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["movie_id"] + "</th>";
+        //rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+            + resultData[i]["movie_title"] +     // display star_name for the link text
+            '</a>' +
+            "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["movie_genre"] + "</th>";
+        //rowHTML += "<th>" + resultData[i]["movie_star"] + "</th>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + resultData[i]['star_id'] + '">'
+            + resultData[i]["movie_star"] +     // display star_name for the link text
+            '</a>' +
+            "</th>";
+        rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page

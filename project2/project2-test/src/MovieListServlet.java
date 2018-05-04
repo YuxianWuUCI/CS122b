@@ -199,7 +199,6 @@ public class MovieListServlet extends HttpServlet {
 				jsonObject.addProperty("movie_director", temp_director);
 				jsonObject.addProperty("movie_genre", Genre);
 				jsonObject.addProperty("movie_star", Star);
-				jsonObject.addProperty("movie_director", temp_director);
 				jsonObject.addProperty("movie_rating", temp_rating);
 				jsonArray.add(jsonObject);
     			System.out.println("count: "+count);
