@@ -1,0 +1,5 @@
+@charset "UTF-8";
+.login_body{
+	background-image: url('background.jpg');
+	padding:150px 0 0 500px;
+}

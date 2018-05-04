@@ -1,31 +1,40 @@
-<!-- This page will be redirected from any url if you are not logged in -->
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login to Fablix</title>
+	<title>login</title>
+    <link href="login.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
-<body>
-<h2>Login to Fablix</h2>
-<!-- Set the method to POST to avoid username/password showing on URL
-     Disable the default action because our JS function will handle it. -->
-<form id="login_form" method="post" action="#">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username">
-    <br>
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password">
-    <br>
-    <input type="submit" value="Login">
-</form>
+
+<body class="login_body">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <h1>Fablix</h1>
+<form role="form" id="login_form" method="post" action="#">
+  <div class="form-group">
+
+    <label for="exampleInputEmail">Email：</label>
+    <input type="email" class="form-control" placeholder="Email Address" name="username" style="width:40%">
+
+  </div>
+  <div class="form-group">
+
+    <label for="exampleInputPassword">Password:</label>
+    <input type="password" class="form-control" placeholder="Password" name="password" style="width:40%">
+
+  </div>
+  <button type="submit" class="btn btn-success" value="Login">submit</button>
+
+</form>	
 
 <div id="login_error_message"></div>
 
-
-<!-- Load jQuery and Bootstrap JS -->
+<!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <!-- include our own JS file -->
 <script src="./login.js"></script>
 

@@ -1,0 +1,61 @@
+<!-- This page will be seen if you logged in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Search</title>
+    <link href="pic/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"> 
+</head>
+<body >
+    <div>
+        <form id="main_search" method="get" action="#">
+        <ul class="naviul">
+        <li class="navili"><a href="index.html">Fablix</a></li><!--href后放html文件-->
+        <li class="naviliright"><a href=#shoppingcart>Check Out</a></li><!--href后放html文件-->
+        
+        <li class="naviliright"><a href="#AdvancedSearch">Advanced Search</a></li><!--href后放html文件-->
+        <li class="bar naviliright">
+        <input type="text" placeholder="movie title" name="title"/>  <!--这里需要传title参数-->
+            <button type="submit" /></button></li>
+        </ul> 
+    </form>
+    </div>
+        <h1>Advanced Search</h1>
+        <hr>
+<form role="form"  class="advancedsearch">
+
+  <div class="form-group">
+
+    <label >Title：</label>
+    <input type="text" class="form-control" placeholder="Movie Title" name="title" style="width:40%">
+
+  </div>
+
+  <div class="form-group">
+
+    <label >Year:</label>
+    <input type="number" class="form-control" placeholder="Year" name="year" style="width:40%">
+
+  </div>
+
+  <div class="form-group">
+
+    <label >Director:</label>
+    <input type="text" class="form-control" placeholder="Director" name="director" style="width:40%">
+
+  </div>
+
+  <div class="form-group">
+
+    <label >Star Name:</label>
+    <input type="text" class="form-control" placeholder="Star name" name="star" style="width:40%">
+
+  </div>
+
+  <button type="submit" class="btn btn-success" value="Login">submit</button>
+
+</form>
+    </div>
+</body>
+</html>

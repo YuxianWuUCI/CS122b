@@ -3,8 +3,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Fablix</title>
-    <link href="movielist.css" rel="stylesheet" type="text/css"/>
+    <title>Movie list</title>
+    <link href="pic/style.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"> 
 </head>
 <body>
@@ -12,8 +12,8 @@
     <form id="main_search" method="get" action="#">
         <ul class="naviul">
         <li class="navili"><a href="index.html">Fablix</a></li><!--href后放html文件-->
-        <li class="naviliright"><a href=#shoppingcart>Shpping Cart</a></li><!--href后放html文件-->
-        <li class="naviliright"><a href="#login">Log in</a></li><!--href后放html文件-->
+        <li class="naviliright"><a href=#shoppingcart>Check Out</a></li><!--href后放html文件-->
+        
         <li class="naviliright"><a href="#AdvancedSearch">Advanced Search</a></li><!--href后放html文件-->
         <li class="bar naviliright">
         <input type="text" placeholder="movie title" name="title"/>  <!--这里需要传title参数-->
@@ -24,20 +24,41 @@
     <div id="movielist">
         <h1>Search Result:</h1>
         <hr>
-        <p>Sort by: Rating</button>
+        Sort by: Rating</button>
         <input type="button"  value="ascend" onclick="提交的js">
         <input type="button"  value="descend" onclick="提交的js">
-        </p>
-        <p>
+        
+        
         Sort by: Title</button>
         <input type="button"  value="ascend" onclick="提交的js">
         <input type="button"  value="descend" onclick="提交的js">
+        <p>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Item Number 
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">30</a></li>
+                <li><a href="#">20</a></li>
+                <li><a href="#">10</a></li>
+            </ul>
+        </div>
         </p>
         <table id=movie_table>
-    <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
-    <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
-    <tbody id=movie_table_body></tbody>
-</table>
+        <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
+        <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
+            <tbody id=movie_table_body>
+                
+            </tbody>
+        </table>
+        <p>
+        <footer id=movie_list_footer>
+            <ul class="pager">
+                <li><a href="#">Previous</a></li>
+                <li><a href="#">Next</a></li>
+            </ul>
+         </p>
+        </footer>
     </div>
     <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -49,5 +70,7 @@
 <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
      otherwise the url is relative to the root path-->
 <script src="movielist.js"></script>
+
+
 </body>
 </html>
