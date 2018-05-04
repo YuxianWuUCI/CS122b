@@ -45,6 +45,8 @@ public class MovieListServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		System.out.println("title: "+title);
 		String starname = request.getParameter("starname");
+		System.out.println("starname: "+starname);
+		System.out.println("null: "+starname.equalsIgnoreCase("null"));
 		String director = request.getParameter("director");
 		
 		//The rest parameters need not to be processed in pattern
@@ -83,19 +85,19 @@ public class MovieListServlet extends HttpServlet {
 			 * This part is processing the parameters received by using url
 			 * Program should consider about the occasion that some parameter might not exist
 			 */
-			if(title!=null) {
+			if(!title.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.title like \""+title+"%\"");
 			}
 			
-			if(starname!=null) {
+			if(!starname.equalsIgnoreCase("null")) {
 				query = query.concat(" and s.name like \""+starname+"%\"");
 			}
 			
-			if(director!=null) {
+			if(!director.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.director like \""+director+"%\"");
 			}
 			
-			if(year!=null) {
+			if(!year.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.year = "+year);
 			}
 			
@@ -122,7 +124,7 @@ public class MovieListServlet extends HttpServlet {
 			// Perform the query
 			ResultSet rs = statement.executeQuery(query);
 			JsonArray jsonArray = new JsonArray();
-			int count = 0;
+			int count = 1;
 			String temp_Id = "";
     		String temp_movieTitle = "";
     		String temp_year = "";
@@ -156,7 +158,7 @@ public class MovieListServlet extends HttpServlet {
         	        	}
     				}else {
     					//if this row has a different movie, web should print the total information of the previous page
-        	        	if(count==0) {
+        	        	if(count==1) {
             	        	Genre = Genresname;
             	        	Star = Starsname;
             	        	temp_Id = Id;
@@ -190,6 +192,16 @@ public class MovieListServlet extends HttpServlet {
     				
     				}
     			}
+    			JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("movie_id", temp_Id);
+				jsonObject.addProperty("movie_title", temp_movieTitle);
+				jsonObject.addProperty("movie_year", temp_year);
+				jsonObject.addProperty("movie_director", temp_director);
+				jsonObject.addProperty("movie_genre", Genre);
+				jsonObject.addProperty("movie_star", Star);
+				jsonObject.addProperty("movie_director", temp_director);
+				jsonObject.addProperty("movie_rating", temp_rating);
+				jsonArray.add(jsonObject);
     			System.out.println("count: "+count);
     			System.out.println("jsonArray: "+jsonArray.toString());
                 // write JSON string to output
