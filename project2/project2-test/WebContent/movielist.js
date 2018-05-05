@@ -83,7 +83,7 @@ function handleMovieResult(resultData) {
     }
     else if(offset>resultData.length){
     	alert("Error:pagenumber you choose is invalid(bigger than we have)\n We will go back to the last page");
-    	page = resultData.length;
+    	page = resultData.length/rangeint;
     	console.log("page jump: "+ page);
     	offset = (page-1)*rangeint;
     }
@@ -117,11 +117,11 @@ function handleMovieResult(resultData) {
         rowHTML += "</th>";
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
 
-        rowHTML += "<th><BUTTON id='add_to_cart' class='btn btn-success' onclick=\"handle_add_to_cart('"+resultData[i]['movie_id']+"','"+resultData[i]['movie_title']+"')\">" +
-        		"<IMG src='./pic/add_to_cart.png' width='100%'></BUTTON></th>";
+        //rowHTML += "<th><BUTTON id='add_to_cart' class='btn btn-success' onclick=\"handle_add_to_cart('"+resultData[i]['movie_id']+"','"+resultData[i]['movie_title']+"')\">" +
+        //		"<IMG src='./pic/add_to_cart.png' width='100%'></BUTTON></th>";
 
         if(resultData[i]["movie_id"]!=""){
-        rowHTML += "<th class='col-md-3'><BUTTON id='add_to_cart' class='btn btn-success col-sm-3' onclick='handle_add_to_cart(resultData[0]['movie_id'],resultData[0]['movie_title'])'>Add</BUTTON></th>";
+        rowHTML += "<th class='col-md-3'><BUTTON id='add_to_cart' class='btn btn-success col-sm-3' onclick=\"handle_add_to_cart('"+resultData[i]['movie_id']+"','"+resultData[i]['movie_title']+"')\">Add</BUTTON></th>";
         }
 
         rowHTML += "</tr>";
