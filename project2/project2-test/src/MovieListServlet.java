@@ -64,8 +64,8 @@ public class MovieListServlet extends HttpServlet {
 		 * offset = 0
 		 * range = 20
 		**/
-		String offset = request.getParameter("offset");
-		String range = request.getParameter("range");
+		//String offset = request.getParameter("offset");
+		//String range = request.getParameter("range");
 		
 		
 		
