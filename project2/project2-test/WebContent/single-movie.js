@@ -100,7 +100,7 @@ function handleMovieResult(resultData) {
         rowHTML = rowHTML.slice(0,rowHTML.lastIndexOf(",")).concat(rowHTML.slice(rowHTML.lastIndexOf(",")+1,rowHTML.length));
         //rowHTML += "<th>" + resultData[i]["movie_genre"] + "</th>";
         //rowHTML += "<th>" + resultData[i]["movie_star"] + "</th>";
-        rowHTML +="<th><BUTTON id='add_to_cart' class='btn btn-success' onclick='handle_add_to_cart(resultData[0]['movie_id'],resultData[0]['movie_title'])'><IMG src='./pic/add_to_cart.png' width='20%' ></BUTTON></th>";
+        rowHTML += "<th class='col-md-3'><BUTTON id='add_to_cart' class='btn btn-success col-sm-3' onclick='handle_add_to_cart(resultData[0]['movie_id'],resultData[0]['movie_title'])'>Add</BUTTON></th>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
