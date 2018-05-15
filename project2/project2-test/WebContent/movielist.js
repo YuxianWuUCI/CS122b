@@ -71,7 +71,6 @@ function handleMovieResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
     movieTableBodyElement.empty();
-    console.log("type of movietable"+typeof(movieTableBodyElement));
     console.log("resultData.length: "+resultData.length);
     console.log("rangeint: "+rangeint);
     console.log("offset: "+offset);
@@ -84,7 +83,7 @@ function handleMovieResult(resultData) {
     }
     else if(offset>resultData.length){
     	alert("Error:pagenumber you choose is invalid(bigger than we have)\n We will go back to the last page");
-    	page = resultData.length;
+    	page = resultData.length/rangeint;
     	console.log("page jump: "+ page);
     	offset = (page-1)*rangeint;
     }
@@ -117,9 +116,14 @@ function handleMovieResult(resultData) {
         rowHTML = rowHTML.slice(0,rowHTML.lastIndexOf(",")).concat(rowHTML.slice(rowHTML.lastIndexOf(",")+1,rowHTML.length));
         rowHTML += "</th>";
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
+
+        //rowHTML += "<th><BUTTON id='add_to_cart' class='btn btn-success' onclick=\"handle_add_to_cart('"+resultData[i]['movie_id']+"','"+resultData[i]['movie_title']+"')\">" +
+        //		"<IMG src='./pic/add_to_cart.png' width='100%'></BUTTON></th>";
+
         if(resultData[i]["movie_id"]!=""){
-        rowHTML += "<th class='col-md-3'><BUTTON id='add_to_cart' class='btn btn-success col-sm-3' onclick='handle_add_to_cart(resultData[0]['movie_id'],resultData[0]['movie_title'])'>Add</BUTTON></th>";
+        rowHTML += "<th class='col-md-3'><BUTTON id='add_to_cart' class='btn btn-success col-sm-3' onclick=\"handle_add_to_cart('"+resultData[i]['movie_id']+"','"+resultData[i]['movie_title']+"')\">Add</BUTTON></th>";
         }
+
         rowHTML += "</tr>";
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
@@ -182,6 +186,17 @@ function handlepage(a){
 	}
 	handleMovieResult(result);
 } 
+
+function handle_add_to_cart(id, title){
+	console.log("movie_id: "+id);
+	console.log("movie_title: "+title);
+	jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: "api/shoppingcart?id="+id+"&title="+title, // Setting request url, which is mapped to the TestServlet
+        success: (resultData) => handleSearchResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    });
+}
 //get the parameter from url
 let movieTitle = getParameterByName('title');
 let movieYear = getParameterByName('year');

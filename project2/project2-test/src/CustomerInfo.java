@@ -71,7 +71,7 @@ public class CustomerInfo extends HttpServlet {
          	statement.setString(3,last_name);
          	statement.setString(1,id);
          	statement.setString(4,expiration);
-         	System.out.println("servlet");
+         	
          	System.out.println("Debugging message" + statement.toString());
          	ResultSet rs=statement.executeQuery();
          	//System.out.println("Debugging message " + rs.next());
