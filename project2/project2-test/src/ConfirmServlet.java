@@ -72,10 +72,10 @@ public class ConfirmServlet extends HttpServlet {
 					System.out.println("id: "+customerId);
 					System.out.println("user.cart_list_len: "+user.cart_list_len);
 					for(int i=0;i<user.cart_list_len;i++) {
-						Statement statement1 = dbcon.createStatement();
 						System.out.println("INSERT INTO sales VALUES(null,"+customerId+",'"+user.cart.get(i)[0]+"', '"+bartDateFormat.format(date)+"');");
 						query = "INSERT INTO sales VALUES(null,"+customerId+",'"+user.cart.get(i)[0]+"', '"+bartDateFormat.format(date)+"');";
-						statement1.executeUpdate(query);
+						PreparedStatement statement1 = dbcon.prepareStatement(query);
+						statement1.executeUpdate();
 						statement1.close();
 					}
 					

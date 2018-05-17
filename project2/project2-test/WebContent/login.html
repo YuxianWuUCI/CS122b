@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
 	<title>login</title>
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="shortcut icon" href="#" />
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <style>
 body{
@@ -31,9 +33,13 @@ padding:150px 0 0 700px;
     <input type="password" class="form-control" placeholder="Password" name="password" style="width:40%">
 
   </div>
+  
   <button type="submit" class="btn btn-success" value="Login">submit</button>
-
+  
+  <div class="g-recaptcha" data-sitekey="6LeaQVkUAAAAAHcqrMooW7-q6nYtwOzzjhsRB6Ti"></div>
+  
 </form>	
+
 
 <div id="login_error_message"></div>
 

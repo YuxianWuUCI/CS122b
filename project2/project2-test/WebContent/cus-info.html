@@ -31,13 +31,13 @@
     <br />
     <br />
     Credit/Debit Card: <br />
-    <input type="text" name="id" placeholder="Card Number" size="40" onkeyup="formatBankNo(this)" onkeydown="formatBankNo(this)" required>
+    <input type="number" name="id" placeholder="Card Number" size="40" required>
     <br />
     <br />
     Expiration: <br />
-    <input type="text" name="expiration" placeholder="20XX-XX-XX" size="40" required>
+    <input type="text" id="expiration" name="expiration" placeholder="20XX-XX-XX" size="40" required>
     <br /><br />
-    <button type="submit" class="btn btn-success" value="Login">Confirm</button>
+    <button type="submit" class="btn btn-success" value="Login" onSubmit="return check()">Confirm</button>
 </form>
 </div>
 <!-- Load jQuery and Bootstrap JS -->
@@ -50,6 +50,5 @@
 <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
      otherwise the url is relative to the root path-->
 <script src="cus-info.js"></script>
-    </div>
 </body>
 </html>

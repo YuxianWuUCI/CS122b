@@ -38,6 +38,8 @@ public class MovieListServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * process the request for getting different movies
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -48,8 +50,10 @@ public class MovieListServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		System.out.println("title: "+title);
 		String starname = request.getParameter("starname");
+		String genre = request.getParameter("genre");
 		System.out.println("starname: "+starname);
 		System.out.println("null: "+starname.equalsIgnoreCase("null"));
+		System.out.println("genre: "+genre);
 		String director = request.getParameter("director");
 		
 		//The rest parameters need not to be processed in pattern
@@ -95,6 +99,9 @@ public class MovieListServlet extends HttpServlet {
 			if(!starname.equalsIgnoreCase("null")) {
 				query = query.concat(" and s.name like \""+starname+"%\"");
 			}
+			if(!genre.equalsIgnoreCase("null")) {
+				query = query.concat(" and g.name = \""+genre+"\"");
+			}
 			
 			if(!director.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.director like \""+director+"%\"");
@@ -116,9 +123,9 @@ public class MovieListServlet extends HttpServlet {
 			query = query.concat(";");
 			System.out.println("query: "+query);
 			// Declare our statement
-			Statement statement = dbcon.createStatement();
+			PreparedStatement statement = dbcon.prepareStatement(query);
 			// Perform the query
-			ResultSet rs = statement.executeQuery(query);
+			ResultSet rs = statement.executeQuery();
 			JsonArray jsonArray = new JsonArray();
 			int count = 1;
 			String temp_Id = "";

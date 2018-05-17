@@ -61,8 +61,8 @@ public class SingleStarServlet extends HttpServlet {
 				query = query.concat(" and s.id = '"+ id +"'");
 			}
 			System.out.println(query);
-			Statement statement = dbcon.createStatement();
-			ResultSet rs = statement.executeQuery(query);
+			PreparedStatement statement = dbcon.prepareStatement(query);
+			ResultSet rs = statement.executeQuery();
 			JsonArray jsonArray = new JsonArray();
 
 			// Iterate through each row of rs

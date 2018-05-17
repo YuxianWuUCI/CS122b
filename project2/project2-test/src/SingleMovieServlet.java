@@ -58,9 +58,9 @@ public class SingleMovieServlet extends HttpServlet {
 			
 			//System.out.println(query);
 			// Declare our statement
-			Statement statement = dbcon.createStatement();
+			PreparedStatement statement = dbcon.prepareStatement(query);
 			// Perform the query
-			ResultSet rs = statement.executeQuery(query);
+			ResultSet rs = statement.executeQuery();
 			//ResultSet rs = statement.executeQuery();
 			System.out.println("execute");
 			JsonArray jsonArray = new JsonArray();

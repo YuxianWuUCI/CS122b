@@ -158,7 +158,7 @@ function handlesort(a,b){
 	    dataType: "json", // Setting return data type
 	    method: "GET", // Setting request method
 	    url: "api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+
-	    	starname+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
+    	starname+"&genre="+genre+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
 	    success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 	});
 }
@@ -202,6 +202,7 @@ let movieTitle = getParameterByName('title');
 let movieYear = getParameterByName('year');
 let director = getParameterByName('director');
 let starname = getParameterByName('starname');
+let genre = getParameterByName('genre');
 let sortontitle = getParameterByName('sortontitle');
 let sortonrating = getParameterByName('sortonrating');
 let pagenumber  = getParameterByName('pagenumber');
@@ -226,6 +227,6 @@ jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
     url: "api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+
-    	starname+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
+    	starname+"&genre="+genre+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating, // Setting request url, which is mapped by StarsServlet in Stars.java
     success: (resultData) => handleMovieResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

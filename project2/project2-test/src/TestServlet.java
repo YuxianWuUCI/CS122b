@@ -37,6 +37,7 @@ public class TestServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    //process general search and advanced search request 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json");
@@ -45,6 +46,7 @@ public class TestServlet extends HttpServlet {
         String year = request.getParameter("year");
         String director = request.getParameter("director");
         String star = request.getParameter("star");
+
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
         if(title != null && title.length() != 0) {

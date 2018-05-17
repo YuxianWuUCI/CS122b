@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 /**
  * Servlet implementation class LoginServelet
  */
@@ -53,13 +55,25 @@ public class LoginServelet extends HttpServlet {
 		response.setContentType("application/json"); // Response mime type
     	PrintWriter out = response.getWriter();
     	
+    	String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+        
+        try {
+            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+        } catch (Exception e) {
+        	System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+            
+            out.close();
+            return;
+        }
+    	
         String email = request.getParameter("username");
         String password = request.getParameter("password");
         try {
         	// Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
-            String query = "select * from customers where email=? and password=?";
+            String query = "select * from customers where email=?";
             //Object[] param={email,password};
             
             // Declare our statement
@@ -68,40 +82,47 @@ public class LoginServelet extends HttpServlet {
             // Perform the query
             //ResultSet rs = statement.executeQuery(query,param);
          	statement.setString(1,email);
-         	statement.setString(2,password);
+         	
          	System.out.println("Debugging message" + statement.toString());
          	ResultSet rs=statement.executeQuery();
          	//System.out.println("Debugging message " + rs.next());
          	JsonArray jsonArray = new JsonArray();
+         	boolean success = false;
          	try {
     		if(rs.next())
     			{
-    				request.getSession().setAttribute("user", new User(email));
+    				String encryptedPassword = rs.getString("password");
+    				System.out.println("encryptedPassword:"+encryptedPassword);
+    				success = new StrongPasswordEncryptor().checkPassword(password, encryptedPassword);
+    				if(success) {
+    					request.getSession().setAttribute("user", new User(email));
+        				
+        				JsonObject responseJsonObject = new JsonObject(); 
+        				//responseJsonObject.addProperty("test", "test "+ email);
+        				responseJsonObject.addProperty("status", "success"); 
+        				responseJsonObject.addProperty("message", "success");
+        				jsonArray.add(responseJsonObject);
+        				out.write(jsonArray.toString());
+        				System.out.println("response: " + responseJsonObject.toString());
+    				}
+    				else {
+    					JsonObject responseJsonObject = new JsonObject();
+        				
+        				responseJsonObject.addProperty("status", "fail");
+    					responseJsonObject.addProperty("message", "incorrect password");
+    					jsonArray.add(responseJsonObject);
+        				out.write(jsonArray.toString());
+        				System.out.println("response: " + responseJsonObject.toString());
+    				}
     				
-    				JsonObject responseJsonObject = new JsonObject(); 
-    				//responseJsonObject.addProperty("test", "test "+ email);
-    				responseJsonObject.addProperty("status", "success"); 
-    				responseJsonObject.addProperty("message", "success");
-    				jsonArray.add(responseJsonObject);
-    				out.write(jsonArray.toString());
-    				System.out.println("response: " + responseJsonObject.toString());
     			}
     		else{
     				JsonObject responseJsonObject = new JsonObject();
     				
     				responseJsonObject.addProperty("status", "fail");
     				
-    				String query1 = "select * from customers where email=?";
-    				PreparedStatement statement1 = dbcon.prepareStatement(query1);
-    				statement1.setString(1,email);
-    				ResultSet rs1 = statement1.executeQuery();
-    				//responseJsonObject.addProperty("test", "test "+ email);
-    				if(!rs1.next()) {
-    					responseJsonObject.addProperty("message", "email " + email + " doesn't exist");
-    				}
-    				else{
-    					responseJsonObject.addProperty("message", "incorrect password");
-    				}
+    				responseJsonObject.addProperty("message", "email " + email + " doesn't exist");
+    				
     				jsonArray.add(responseJsonObject);
     				out.write(jsonArray.toString());
     				System.out.println("response: " + jsonArray.toString());
