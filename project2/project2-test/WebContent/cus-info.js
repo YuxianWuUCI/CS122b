@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 /**
  * Handle the data returned by LoginServlet
+=======
+//import java.util.*;
+/**
+ 
+* Handle the data returned by LoginServlet
+>>>>>>> chen
  * @param resultDataString jsonObject
  */
 function handleCardResult(resultDataString) {
@@ -23,9 +30,16 @@ function handleCardResult(resultDataString) {
         window.location.replace("cus-info.html");
     }
 }
+<<<<<<< HEAD
 function check(){
 	var pattern = /[\d]{4}[\/-]{1}[\d]{1,2}[\/-]{1}[\d]{1,2}/g; 
 	var expiration=doucument.getElementById("expiration");
+=======
+/*function check(){
+	var pattern = /[\d]{4}[\/-]{1}[\d]{1,2}[\/-]{1}[\d]{1,2}/g; 
+	var expiration=doucument.getElementById("expiration");
+	console.log("in check function");
+>>>>>>> chen
 	if(!strcmp(pattern,expiration))
 		{
 		window.alert("please input the correct date like 20XX-MM-DD!");
@@ -34,7 +48,11 @@ function check(){
 	return true;
 }
 
+<<<<<<< HEAD
 
+=======
+*/
+>>>>>>> chen
 /**
  * Submit the form content with POST method
  * @param formSubmitEvent
@@ -46,6 +64,7 @@ function submitCardForm(formSubmitEvent) {
     //   which will cause the page to refresh
     //   see jQuery reference for details: https://api.jquery.com/submit/
     formSubmitEvent.preventDefault();
+<<<<<<< HEAD
     //alert("lol");
     var last_equal=jQuery("#creditcard_form").serialize().lastIndexOf("=");
     var length=jQuery("#creditcard_form").serialize().length;
@@ -61,6 +80,21 @@ function submitCardForm(formSubmitEvent) {
         // Serialize the login form to the data sent by POST request
         jQuery("#login_form").serialize(),
         (resultDataString) => handleLoginResult(resultDataString));*/
+=======
+    //lert("lol");
+    var last_equal=jQuery("#creditcard_form").serialize().lastIndexOf("=");
+    var length=jQuery("#creditcard_form").serialize().length;
+    var date=jQuery("#creditcard_form").serialize().slice(last_equal+1,length);
+    console.log(date);
+    var pattern = /[\d]{4}[\/-]{1}[\d]{1,2}[\/-]{1}[\d]{1,2}/g; 
+	
+	if(!pattern.test(date))
+		{
+		window.alert("please input the correct date like 20XX-MM-DD!");
+		return false;
+		}
+	
+>>>>>>> chen
     jQuery.ajax({
         dataType: "json", // Setting return data type
         method: "POST", // Setting request method

@@ -13,6 +13,10 @@ function handleLoginResult(resultDataString) {
     // If login success, redirect to index.html page
     if (resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="user") {
         window.location.replace("index.html");
+    	//console.log("success");
+    }
+    else if(resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="employee"){
+    	window.location.replace("_dashboard.html");
     }
     else if(resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="employee"){
     	window.location.replace("_dashboard.html");
@@ -33,6 +37,7 @@ function handleLoginResult(resultDataString) {
 function submitLoginForm(formSubmitEvent) {
     console.log("submit login form");
     console.log(jQuery("#login_form").serialize());
+    
     // Important: disable the default action of submitting the form
     //   which will cause the page to refresh
     //   see jQuery reference for details: https://api.jquery.com/submit/
