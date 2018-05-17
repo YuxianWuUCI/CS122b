@@ -11,8 +11,11 @@ function handleLoginResult(resultDataString) {
     //console.log("resultDatastatus: "+JSON.stringify(resultDataJson[0]));
     //jQuery("#login_error_message").text(resultDataJson["test"]);
     // If login success, redirect to index.html page
-    if (resultDataJson[0]["status"] === "success") {
+    if (resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="user") {
         window.location.replace("index.html");
+    }
+    else if(resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="employee"){
+    	window.location.replace("_dashboard.html");
     }
     // If login fail, display error message on <div> with id "login_error_message"
     else {
