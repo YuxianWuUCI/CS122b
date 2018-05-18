@@ -10,7 +10,7 @@
 <style>
 body{
 background-image: url("http://static.runoob.com/images/demo/demo4.jpg") ;
-padding:150px 0 0 700px;
+padding:150px 0 0 300px;
 }
 </style>
 <body >
@@ -20,24 +20,31 @@ padding:150px 0 0 700px;
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <h1>Fablix</h1>
-<form role="form" id="login_form" method="post" action="#">
-  <div class="form-group">
 
+<form role="form" id="login_form" method="post" action="#">
+
+  <div class="form-group">
+<label class="radio-inline">
+        <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>User login:
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2"> Employee login:
+    </label>
+    <br>
     <label for="exampleInputEmail">Email：</label>
-    <input type="email" class="form-control" placeholder="Email Address" name="username" style="width:40%">
+    <input type="email" class="form-control" placeholder="Email Address" name="username" style="width:30%">
 
   </div>
   <div class="form-group">
 
     <label for="exampleInputPassword">Password:</label>
-    <input type="password" class="form-control" placeholder="Password" name="password" style="width:40%">
+    <input type="password" class="form-control" placeholder="Password" name="password" style="width:30%">
 
   </div>
-  
   <button type="submit" class="btn btn-success" value="Login">submit</button>
   
   <div class="g-recaptcha" data-sitekey="6LeaQVkUAAAAAHcqrMooW7-q6nYtwOzzjhsRB6Ti"></div>
-  
+
 </form>	
 
 
@@ -46,7 +53,7 @@ padding:150px 0 0 700px;
 <!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- include our own JS file -->
-<script src="./login.js"></script>
+<script src="login.js"></script>
 
 </body>
 </html>
