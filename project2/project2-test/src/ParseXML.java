@@ -198,12 +198,17 @@ public class ParseXML {
                 }
                 String year = getTextValue(movieEle,"year");
                 Movie m = new Movie();
+                if(title==null) {
+                	title = "notitle";
+                }
                 if(director==null) {
                 	director = "nodirector";
                 }
                 m.setDirector(director);
                 m.setTitle(title);
-                if(!year.equalsIgnoreCase("null")||year!=null) {
+                if(year==null || year.equalsIgnoreCase("null")) {
+                }
+                else {
                 	try {
                 		m.setYear(Integer.parseInt(year));
                 	}catch(NumberFormatException e) {
