@@ -48,7 +48,8 @@ public class MovieListServlet extends HttpServlet {
 		// Retrieve parameter id from url request.
 		//These three parameters need to be processed in pattern
 		String title = request.getParameter("title");
-		System.out.println("title: "+title);
+		title = title.replace("20", " ");
+		System.out.println("title2: "+title);
 		String starname = request.getParameter("starname");
 		String genre = request.getParameter("genre");
 		System.out.println("starname: "+starname);

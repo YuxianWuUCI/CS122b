@@ -18,9 +18,6 @@ function handleLoginResult(resultDataString) {
     else if(resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="employee"){
     	window.location.replace("_dashboard.html");
     }
-    else if(resultDataJson[0]["status"] === "success"&&resultDataJson[0]["identification"]==="employee"){
-    	window.location.replace("_dashboard.html");
-    }
     // If login fail, display error message on <div> with id "login_error_message"
     else {
 

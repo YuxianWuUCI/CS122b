@@ -57,6 +57,8 @@ public class LoginServlet extends HttpServlet {
     	
     	String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+        String flag=request.getParameter("optionsRadiosinline");
+    	System.out.println(flag);
         
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
@@ -72,8 +74,13 @@ public class LoginServlet extends HttpServlet {
         try {
         	// Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
-
-            String query = "select * from customers where email=?";
+            String query = "select * from";
+            if(flag.equals("option1")) {
+            	query = query.concat(" customers where email=?");
+            }
+            else {
+            	query = query.concat(" employees where email=?");
+            }
             //Object[] param={email,password};
             
             // Declare our statement
@@ -99,6 +106,12 @@ public class LoginServlet extends HttpServlet {
         				
         				JsonObject responseJsonObject = new JsonObject(); 
         				//responseJsonObject.addProperty("test", "test "+ email);
+        				if(flag.equals("option1")) {
+        					responseJsonObject.addProperty("identification", "user"); 
+        	            }
+        	            else {
+        	            	responseJsonObject.addProperty("identification", "employee"); 
+        	            }
         				responseJsonObject.addProperty("status", "success"); 
         				responseJsonObject.addProperty("message", "success");
         				jsonArray.add(responseJsonObject);
