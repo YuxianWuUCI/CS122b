@@ -63,11 +63,11 @@ public class ParseXML {
         //get each employee element and create a Employee object
         parseDocument();
         
-        System.out.println("movie size:"+moviesmap.size());
+        /*System.out.println("movie size:"+moviesmap.size());
         System.out.println("stars size:"+starsmap.size());
         System.out.println("stars_in_movies size:"+stars_in_movies.size());
         System.out.println("genres_in_movies size:"+genres_in_movies.size());
-        System.out.println("Diahnne Abbott's birthyear: "+starsmap.get("Diahnne Abbott").getBirthyear());
+        System.out.println("Diahnne Abbott's birthyear: "+starsmap.get("Diahnne Abbott").getBirthyear());*/
 
     }
     
@@ -206,7 +206,7 @@ public class ParseXML {
                 }
                 m.setDirector(director);
                 m.setTitle(title);
-                if(year==null || year.equalsIgnoreCase("null")) {
+                if(year==null ||  year.equalsIgnoreCase("null")) {
                 }
                 else {
                 	try {
@@ -324,8 +324,8 @@ public class ParseXML {
     				rs4.close();
     				statement4.close();
     			}
-    			System.out.println("movie \""+movie_Id+"\"");
-    			System.out.println("movie title"+entry.getValue().getTitle());
+    			//System.out.println("movie \""+movie_Id+"\"");
+    			//System.out.println("movie title"+entry.getValue().getTitle());
     			
             	//get all the star this movie has
             	stars = stars_in_movies.get(entry.getKey());
@@ -339,7 +339,7 @@ public class ParseXML {
             	ArrayList<String> Star_Ids = new ArrayList<String>();
             	ArrayList<String> Star_years = new ArrayList<String>();
             	int count = 1;
-            	System.out.println("star: "+stars);
+            	//System.out.println("star: "+stars);
             	for(int i = 0; i<stars.size(); i++) {
             		//Judge whether this star is a new star or not
             		String star_Id = null;
@@ -367,14 +367,14 @@ public class ParseXML {
         				statement3.close();
         			}
         			String birthyear = null;
-        			System.out.println("starname: "+stars.get(i));
+        			//System.out.println("starname: "+stars.get(i));
         			if(starsmap.get(stars.get(i))==null) {
         				//means there is no such star in starsmap
         				birthyear=null;
         				System.out.println("There is no star in casts.xml for star "+ stars.get(i));
         			}
         			else{
-        				System.out.println("birthyear: "+starsmap.get(stars.get(i)).getBirthyear());
+        				//System.out.println("birthyear: "+starsmap.get(stars.get(i)).getBirthyear());
         				if(starsmap.get(stars.get(i)).getBirthyear()!=0) {
             				//means this star has a birthyear
             				birthyear = String.valueOf(starsmap.get(stars.get(i)).getBirthyear());
