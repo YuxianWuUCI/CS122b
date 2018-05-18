@@ -77,3 +77,10 @@ create table ratings(
 	FOREIGN KEY(movieId) REFERENCES movies(id)
 		on delete cascade on update cascade
 )DEFAULT CHARSET=utf8;
+
+create table employees(
+    email varchar(50) not null, 
+    password varchar(20) not null,
+    fullname varchar(100),
+    PRIMARY KEY ( email )
+    )DEFAULT CHARSET=utf8;
