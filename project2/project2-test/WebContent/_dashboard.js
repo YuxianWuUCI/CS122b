@@ -74,7 +74,21 @@ function submit_insert_starForm(formSubmitEvent) {
     //   which will cause the page to refresh
     //   see jQuery reference for details: https://api.jquery.com/submit/
     formSubmitEvent.preventDefault();
-
+    var str=jQuery("#star_year").serialize();
+    if(str.length==13){
+    	str=str.substr(9,4);
+    	console.log(str);
+    	}
+    else{
+    	window.alert("please input the correct birthyear!");
+		return false;
+    }
+    var pattern = /[\d]{4}/g;
+    if(!pattern.test(str))
+	{
+	window.alert("please input the correct birthyear!");
+	return false;
+	}
     /*jQuery.post(
         "api/login",
         // Serialize the login form to the data sent by POST request
@@ -96,6 +110,22 @@ function submit_add_movieForm(formSubmitEvent) {
     console.log("submit_add_movieForm");
     console.log(jQuery("#add_movie").serialize());
     formSubmitEvent.preventDefault();
+
+    var str=jQuery("#year").serialize();
+    if(str.length==15){
+    	str=str.substr(11,4);
+    	console.log(str);
+    	}
+    else{
+    	window.alert("please input the correct year!");
+		return false;
+    }
+    var pattern = /[\d]{4}/g;
+    if(!pattern.test(str))
+	{
+	window.alert("please input the correct year!");
+	return false;
+	}
     jQuery.ajax({
         dataType: "json", // Setting return data type
         method: "Get", // Setting request method

@@ -142,10 +142,10 @@ public String getID(String str) {
 					statement_nostar.setString(1, "nostar");
 					statement_nostar.setString(2, movie_Id);
 					ResultSet rs_ns=statement_nostar.executeQuery();
-					//System.out.println("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+					
 					if(rs_ns.next())
 					{
-						//System.out.println("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+						
 						String starId=rs_ns.getString("starId");
 						String query_dns="delete from stars_in_movies where starId = ?";
 						PreparedStatement statement_dns = dbcon.prepareStatement(query_dns);
