@@ -50,6 +50,7 @@ public class TestServlet extends HttpServlet {
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
         if(title != null && title.length() != 0) {
+        	 title = title.replace(" ", ",");
         	 title=title.concat("%");
         	 jsonObject.addProperty("movie_title", title);
         }

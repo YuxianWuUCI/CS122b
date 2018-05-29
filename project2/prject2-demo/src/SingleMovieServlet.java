@@ -51,10 +51,12 @@ public class SingleMovieServlet extends HttpServlet {
 			String query = "Select m.id, m.title, m.year, m.director, g.name, s.name, s.id\n" + 
 					"From movies as m, genres_in_movies as gim, genres as g, stars_in_movies as sim, stars as s\n" + 
 					"Where m.id = gim.movieId and gim.genreId = g.id and m.id = sim.movieId and sim.starId = s.id";
-			if(!movieid.equalsIgnoreCase("null")) {
-				query = query.concat(" and m.id = '"+ movieid +"'");
+			if(movieid!=null&&!movieid.equalsIgnoreCase("null")) {
+				query = query.concat(" and m.id = '"+ movieid +"' ");
 				
 			}
+			query=query.concat(";");
+			System.out.println("single movie query: "+query);
 			
 			//System.out.println(query);
 			// Declare our statement

@@ -44,16 +44,16 @@ public class MovieListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json"); // Response mime type
-
+		
 		// Retrieve parameter id from url request.
 		//These three parameters need to be processed in pattern
 		String title = request.getParameter("title");
-		title = title.replace("20", " ");
-		System.out.println("title2: "+title);
+		System.out.println("title1: "+title);
+		
 		String starname = request.getParameter("starname");
 		String genre = request.getParameter("genre");
 		System.out.println("starname: "+starname);
-		System.out.println("null: "+starname.equalsIgnoreCase("null"));
+		//System.out.println("null: "+starname.equalsIgnoreCase("null"));
 		System.out.println("genre: "+genre);
 		String director = request.getParameter("director");
 		
@@ -64,6 +64,7 @@ public class MovieListServlet extends HttpServlet {
 		 **/
 		String sortontitle = request.getParameter("sortontitle");
 		String sortonrating = request.getParameter("sortonrating");
+		System.out.println("test genre: "+genre);
 		/**
 		 * These two parameters need to have default value
 		 * offset = 0
@@ -80,7 +81,7 @@ public class MovieListServlet extends HttpServlet {
 		try {
 			// Get a connection from dataSource
 			Connection dbcon = dataSource.getConnection();
-
+			System.out.println("test starname: "+starname);
 			// Construct a query with parameter represented by "?"
 			String query = "select m.id, m.title, m.year, m.director"
             		+ ", g.name, s.id, s.name, r.rating "
@@ -93,8 +94,13 @@ public class MovieListServlet extends HttpServlet {
 			 * This part is processing the parameters received by using url
 			 * Program should consider about the occasion that some parameter might not exist
 			 */
-			if(!title.equalsIgnoreCase("null")) {
-				query = query.concat(" and m.title like \""+title+"%\"");
+			if(title!=null && !title.equalsIgnoreCase("null")) {
+				String[] titlelist = title.split(",");
+				query = query.concat(" and match(m.title) against('");
+				for (String retval: titlelist){
+		           query = query.concat(" +"+retval+"*");
+		        }
+				query = query.concat("' IN BOOLEAN MODE)");
 			}
 			
 			if(!starname.equalsIgnoreCase("null")) {

@@ -3,7 +3,8 @@ create table movies(
 	title varchar(100) not null,
 	year integer not null,
 	director varchar(100) not null,
-	PRIMARY KEY ( id )
+	PRIMARY KEY ( id ),
+	FULLTEXT (title)
  )DEFAULT CHARSET=utf8;
 
 create table stars(

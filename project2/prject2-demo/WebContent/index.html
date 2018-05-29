@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <title>Fablix</title>
     <link href="pic/main.css" rel="stylesheet" type="text/css"/>
+    <!-- Load jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- include jquery autocomplete JS  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
 </head>
-<body>
+<body style="background-color: white">
     <div>
         <ul class="naviul">
         <li class="navili"><a href="index.html">Fablix</a></li><!--href后放html文件-->
@@ -18,12 +24,11 @@
         <h3>The ultimate online movie store for all your entertainment needs!</h3>
     <div class="bar">
     <form id="main_search" method="get" action="#">
-            <input type="text" placeholder="movie title" name="title"/>  <!--这里需要传title参数-->
+            <input type="text" placeholder="movie title" name="title" id="autocomplete"/>  <!--这里需要传title参数-->
             <button type="submit" /></button>  
     </form>
     </div>
     <div>
-        <h3>Guide Search</h3>
         <hr>
         <div class="genrelist">
             <h4>Browse Movie by Genre</h4>
@@ -116,9 +121,8 @@
         </div>
     </div>
     <!-- Load jQuery and Bootstrap JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 
 <!-- Load our own JS file -->
 <!-- The path is relative to index.html, since these two files are in the same directory -->

@@ -8,7 +8,9 @@
 
 function handleSearchResult(resultData) {
     console.log("handleMainSearchResult: jump to the corresponding movie list page");
-    window.location.replace("movie-list.html?title="+resultData[0]["movie_title"]);    
+    //window.location.replace("movie-list.html?title="+resultData[0]["movie_title"]);
+    console.log("jump to movie-list.html?title="+resultData[0]["movie_title"]);
+    console.log(jQuery("#main_search").serialize());
 }
 function submitMainSearch(formSubmitEvent) {
 	console.log("submit main search in movie-list page");
@@ -197,8 +199,12 @@ function handle_add_to_cart(id, title){
         success: (resultData) => handleSearchResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
     });
 }
+
+
+
 //get the parameter from url
 let movieTitle = getParameterByName('title');
+console.log("movie title after change2222: "+movieTitle);
 let movieYear = getParameterByName('year');
 let director = getParameterByName('director');
 let starname = getParameterByName('starname');
@@ -222,6 +228,8 @@ else{
 	var page = parseInt(pagenumber);
 	var offset = (page-1)*rangeint;
 }
+console.log("api/movielist?title="+movieTitle+"&year="+movieYear+"&director="+director+"&starname="+
+    	starname+"&genre="+genre+"&sortontitle="+sortontitle+"&sortonrating="+sortonrating);
 // Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
     dataType: "json", // Setting return data type
