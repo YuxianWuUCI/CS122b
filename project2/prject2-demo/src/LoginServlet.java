@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("application/json"); // Response mime type
     	PrintWriter out = response.getWriter();
-    	
+    	/*
     	String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
         String flag=request.getParameter("optionsRadiosinline");
@@ -68,7 +68,9 @@ public class LoginServlet extends HttpServlet {
             out.close();
             return;
         }
-    	
+    	*/
+    	String flag=request.getParameter("optionsRadiosinline");
+    	System.out.println(flag);
         String email = request.getParameter("username");
         String password = request.getParameter("password");
         try {
