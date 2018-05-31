@@ -29,9 +29,6 @@ function submitMainSearch(formSubmitEvent) {
 jQuery("#main_search").submit((event) => submitMainSearch(event));
 var cache = new Array();
 
-function CheckContain(old_query){
-	return 
-}
 function handleLookup(query, doneCallback) {
 	console.log("autocomplete initiated")
 	
@@ -42,7 +39,8 @@ function handleLookup(query, doneCallback) {
 		console.log(cache[i]);
 	}
 	for (i in cache){
-		if(String(cache[i].input).indexOf(query.trim())!=-1){
+		//if the new query is same as one of the old query(except the space)
+		if(String(cache[i].input)==query.trim()){
 			console.log("Use old result");
 			handleLookupAjaxSuccess(cache[i].result, query, doneCallback);
 			return;
@@ -59,7 +57,7 @@ function handleLookup(query, doneCallback) {
 		"success": function(data) {
 			//store the result of this query
 			var old_query = {
-				input:query,
+				input:query.trim(),
 				result:data
 			};
 			cache.push(old_query);
