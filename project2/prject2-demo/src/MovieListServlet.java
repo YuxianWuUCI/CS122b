@@ -103,24 +103,24 @@ public class MovieListServlet extends HttpServlet {
 				query = query.concat("' IN BOOLEAN MODE)");
 			}
 			
-			if(!starname.equalsIgnoreCase("null")) {
+			if(starname!=null && !starname.equalsIgnoreCase("null")) {
 				query = query.concat(" and s.name like \""+starname+"%\"");
 			}
-			if(!genre.equalsIgnoreCase("null")) {
+			if(genre!=null && !genre.equalsIgnoreCase("null")) {
 				query = query.concat(" and g.name = \""+genre+"\"");
 			}
 			
-			if(!director.equalsIgnoreCase("null")) {
+			if(director!=null && !director.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.director like \""+director+"%\"");
 			}
 			
-			if(!year.equalsIgnoreCase("null")) {
+			if(year!=null && !year.equalsIgnoreCase("null")) {
 				query = query.concat(" and m.year = "+year);
 			}
 			
-			if(!sortontitle.equalsIgnoreCase("null")) {
+			if(sortontitle!=null && !sortontitle.equalsIgnoreCase("null")) {
 				query = query.concat(" order by m.title "+sortontitle);
-			}else if(!sortonrating.equalsIgnoreCase("null")){
+			}else if(sortonrating!=null && !sortonrating.equalsIgnoreCase("null")){
 				//if user chooses sorting on rating
 				query = query.concat(" order by r.rating "+sortonrating+", m.title");
 			}else {
