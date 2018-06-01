@@ -96,11 +96,26 @@ public class MovieListServlet extends HttpServlet {
 			 */
 			if(title!=null && !title.equalsIgnoreCase("null")) {
 				String[] titlelist = title.split(",");
-				query = query.concat(" and match(m.title) against('");
+				query = query.concat(" and (match(m.title) against('");
 				for (String retval: titlelist){
 		           query = query.concat(" +"+retval+"*");
 		        }
 				query = query.concat("' IN BOOLEAN MODE)");
+
+				//add fuzzy search
+				query = query.concat(" or (");
+				query = query.concat("edrec('"+titlelist[0]+"',title,"+titlelist[0].length()/3+")");
+				for (int i = 1 ; i<titlelist.length;i++){
+					query = query.concat(" and ");
+					//set the tolerance of user's typo 
+					//which depends on how many characters user has typed
+					query = query.concat("edrec('"+titlelist[i]+"',title,"+titlelist[i].length()/3+")");
+					
+			    }
+				query = query.concat("))");
+				
+				
+				
 			}
 			
 			if(starname!=null && !starname.equalsIgnoreCase("null")) {

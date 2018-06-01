@@ -51,6 +51,7 @@ public class MovieSuggestion extends HttpServlet {
 				return;
 			}
 			System.out.println("query2: "+query);
+			
 			Connection dbcon = dataSource.getConnection();
 			System.out.println("query3: "+query);
 			String dbquery = "select id, title from movies where match(title) against('";
@@ -60,7 +61,19 @@ public class MovieSuggestion extends HttpServlet {
 				for (String retval: titlelist){
 		           dbquery = dbquery.concat(" +"+retval+"*");
 		        }
-				dbquery = dbquery.concat("' IN BOOLEAN MODE);");
+				dbquery = dbquery.concat("' IN BOOLEAN MODE)");
+				
+				//add fuzzy search
+				dbquery = dbquery.concat(" or (");
+				dbquery = dbquery.concat("edrec('"+titlelist[0]+"',title,"+titlelist[0].length()/3+")");
+				for (int i = 1 ; i<titlelist.length;i++){
+					dbquery = dbquery.concat(" and ");
+					//set the tolerance of user's typo 
+					//which depends on how many characters user has typed
+					dbquery = dbquery.concat("edrec('"+titlelist[i]+"',title,"+titlelist[i].length()/3+")");
+					
+			    }
+				dbquery = dbquery.concat(");");
 			}
 			System.out.println("query: "+dbquery);
 			PreparedStatement statement = dbcon.prepareStatement(dbquery);
