@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.google.gson.JsonArray;
@@ -52,7 +54,21 @@ public class MovieSuggestion extends HttpServlet {
 			}
 			System.out.println("query2: "+query);
 			
-			Connection dbcon = dataSource.getConnection();
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                System.out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
+            if (ds == null)
+            	System.out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+            	System.out.println("dbcon is null.");
 			System.out.println("query3: "+query);
 			String dbquery = "select id, title from movies where match(title) against('";
 			//search the suggestion movie according to the content in input box

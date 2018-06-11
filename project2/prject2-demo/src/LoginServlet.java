@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +77,21 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         try {
         	// Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
+        	Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
             String query = "select * from";
             if(flag.equals("option1")) {
             	query = query.concat(" customers where email=?");

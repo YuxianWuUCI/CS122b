@@ -36,7 +36,7 @@
     </dependencies>
 
     <build>
-        <finalName>project2-login-example</finalName>
+        <finalName>project2-demo</finalName>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>

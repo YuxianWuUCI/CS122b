@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -79,9 +82,24 @@ public String getID(String str) {
 		String rating="5.0";
 		
 		try {
-			Connection dbcon = dataSource.getConnection();
+			System.out.println("Add movie servlet receive the message2");
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/WriteDB");
+            
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
 			System.out.println("success connection");
-			
+			System.out.println("Add movie servlet receive the messag3");
 			//get movie id
 			String query1="select id from movies where title=? and year=? and director=?";
 			PreparedStatement statement1 = dbcon.prepareStatement(query1);
@@ -89,6 +107,7 @@ public String getID(String str) {
 			statement1.setString(2, movie_year);
 			statement1.setString(3, movie_director);
 			ResultSet rs1=statement1.executeQuery();
+			System.out.println(query1);
 			if(rs1.next())
 			{
 				movie_Id=rs1.getString("id");
@@ -217,6 +236,9 @@ public String getID(String str) {
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NamingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 

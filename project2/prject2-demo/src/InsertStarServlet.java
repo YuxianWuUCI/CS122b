@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +59,22 @@ public class InsertStarServlet extends HttpServlet {
 		//get the user information from the session
         //User user = (User) request.getSession().getAttribute("user");
 		try {
-			Connection dbcon = dataSource.getConnection();
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/WriteDB");
+            
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+			System.out.println("success connection");
 			System.out.println("success connection");
 			String query1="select max(id) as max_id from stars;";
 			Statement statement = dbcon.createStatement();
@@ -125,6 +143,9 @@ public class InsertStarServlet extends HttpServlet {
 			dbcon.close();
        
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

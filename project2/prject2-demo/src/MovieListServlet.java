@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -6,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.*;
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +21,8 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Servlet implementation class MovieListServlet
@@ -36,6 +41,31 @@ public class MovieListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    
+    
+    
+    
+    public static void timelogs(String content) {  
+        try {  
+            FileWriter writer = new FileWriter("/home/ubuntu/timelogTS.txt", true);  
+            writer.write(content+"\n");  
+            writer.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }
+    
+    public static void timelogj(String content) {  
+        try {  
+            FileWriter writer = new FileWriter("/home/ubuntu/timelogTJ.txt", true);  
+            writer.write(content+"\n");  
+            writer.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+    }
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * 
@@ -79,8 +109,26 @@ public class MovieListServlet extends HttpServlet {
 		// Output stream to STDOUT
 		PrintWriter out = response.getWriter();
 		try {
+			long startTime = System.nanoTime();
+			Context initCtx = new InitialContext();
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+            
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
+            
 			// Get a connection from dataSource
-			Connection dbcon = dataSource.getConnection();
+			//Connection dbcon = dataSource.getConnection();
 			System.out.println("test starname: "+starname);
 			// Construct a query with parameter represented by "?"
 			String query = "select m.id, m.title, m.year, m.director"
@@ -147,7 +195,23 @@ public class MovieListServlet extends HttpServlet {
 			// Declare our statement
 			PreparedStatement statement = dbcon.prepareStatement(query);
 			// Perform the query
+			long TJstartTime = System.nanoTime();
+			   
+			
 			ResultSet rs = statement.executeQuery();
+			//ResultSet rs = statement.executeQuery(query);  
+			long TJendTime = System.nanoTime();
+			long TJelapsedTime = TJendTime - TJstartTime;
+			System.out.println("TJ1,"+TJelapsedTime);
+			timelogj(TJelapsedTime+"");
+			System.out.println("TJ2,"+TJelapsedTime);
+			long endTime = System.nanoTime();
+			long elapsedTime = endTime - startTime;
+			System.out.println("TS,"+elapsedTime);
+			timelogs(elapsedTime+"");
+			System.out.println("TS,"+elapsedTime);
+			
+			   
 			JsonArray jsonArray = new JsonArray();
 			int count = 1;
 			String temp_Id = "";
