@@ -193,13 +193,14 @@ public class MovieListServlet extends HttpServlet {
 			query = query.concat(";");
 			System.out.println("query: "+query);
 			// Declare our statement
-			PreparedStatement statement = dbcon.prepareStatement(query);
+			//PreparedStatement statement = dbcon.prepareStatement(query);
+			Statement statement = dbcon.createStatement();
 			// Perform the query
 			long TJstartTime = System.nanoTime();
 			   
 			
-			ResultSet rs = statement.executeQuery();
-			//ResultSet rs = statement.executeQuery(query);  
+			//ResultSet rs = statement.executeQuery();
+			ResultSet rs = statement.executeQuery(query);  
 			long TJendTime = System.nanoTime();
 			long TJelapsedTime = TJendTime - TJstartTime;
 			System.out.println("TJ1,"+TJelapsedTime);
