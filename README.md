@@ -1,1 +1,1 @@
-# cs122b-spring18-team-59
+The main program my partner and I finished is in the project3/prject-demo file.
